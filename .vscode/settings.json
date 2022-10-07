@@ -1,0 +1,8 @@
+{
+    "emmet.triggerExpansionOnTab": true,
+    "editor.autoIndent": "brackets",
+    "editor.codeActionsOnSave": {
+        "source.fixAll": true
+    },
+    "editor.tabSize": 3,
+}
