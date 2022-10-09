@@ -4,7 +4,7 @@ import { ProductRepository } from '@domain/repositories/ProductRepository'
 import { CosmosDB } from '@infrastructure/driven-adapters/Azure/Cosmos'
 
 export class CosmosDBRepository implements ProductRepository {
-   private readonly db: Container 
+   private readonly db: Container
    constructor(container: string) {
       this.db = CosmosDB.getContainer(container)
    }
