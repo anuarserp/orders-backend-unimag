@@ -1,6 +1,8 @@
 import { NextFunction, Request, Response } from 'express'
 import { ProductCreateUseCase } from '@app/usecases/ProductCreate'
-import { CosmosDBRepository } from '@infrastructure/implementations/Azure/CosmosDBRepository'
+import { MongoProductRepository } from '@infrastructure/implementations/Mongoose/repositories/MongoProductRepository'
+import ProductModel from '@infrastructure/implementations/Mongoose/models/ProductModel'
+import { UuidV4Generator } from '@infrastructure/UuidGenerator'
 
 export const createProduct = async (req: Request, res: Response, next: NextFunction): Promise<void> => {
    const {
@@ -9,8 +11,10 @@ export const createProduct = async (req: Request, res: Response, next: NextFunct
       price,
    }  = req.body
 
-   const cosmosRepo = new CosmosDBRepository('products')
-   const productCreateUseCase = new ProductCreateUseCase(cosmosRepo)
+   const mongoRepo = new MongoProductRepository(ProductModel)
+   const uuidV4Generator = new UuidV4Generator()
+
+   const productCreateUseCase = new ProductCreateUseCase(mongoRepo, uuidV4Generator)
 
    try {
       const productCreate = await productCreateUseCase.run({

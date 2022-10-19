@@ -1,3 +1,4 @@
+import dbInit from '@infrastructure/driven-adapters/Mongoose/db'
 import express from 'express'
 import * as http from 'http'
 import errorMiddleware from './middlewares/error.middleware'
@@ -19,13 +20,16 @@ export class Server {
 
    async listen (): Promise<void> {
       return await new Promise(resolve => {
-         this.httpServer = this.app.listen(this.port, () => {
-            console.log(
-               `Backend App is running at http://localhost:${this.port}`
-            )
-            console.log('Press CTRL-C to stop\n')
-            resolve()
+         dbInit().then(() => {
+            this.httpServer = this.app.listen(this.port, () => {
+               console.log(
+                  `Server is running at http://localhost:${this.port}`
+               )
+               console.log('Press CTRL-C to stop\n')
+               resolve()
+            })
          })
+         
       })
    }
 

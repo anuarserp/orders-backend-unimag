@@ -5,4 +5,5 @@
         "source.fixAll": true
     },
     "editor.tabSize": 3,
+    "editor.fontFamily": "FantasqueSansMono Nerd Font Mono",
 }

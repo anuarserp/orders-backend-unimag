@@ -2,16 +2,20 @@ import { ProductCodeIsNotValidException, ProductAlreadyExistsException, ProductN
 import { Product } from '@domain/entities/Product'
 import { ProductRepository } from '@domain/repositories/ProductRepository'
 import { ExistProductByCode } from '@domain/services/ExistProductByCode'
+import { UuidGenerator } from '@domain/utils/UuidGenerator'
 
 export class ProductCreateUseCase {
    private readonly productRepository: ProductRepository
    private readonly existProductByCode: ExistProductByCode
-   constructor(productRepository: ProductRepository){
+   private readonly uuidGenerator: UuidGenerator
+   
+   constructor(productRepository: ProductRepository, uuidGenerator: UuidGenerator){
       this.productRepository = productRepository
       this.existProductByCode = new ExistProductByCode(productRepository)
+      this.uuidGenerator = uuidGenerator
    }
 
-   async run(body: Product): Promise<Product> {
+   async run(body: Product): Promise<string> {
 
       if (body.code.toString().length > 8) throw new ProductCodeIsNotValidException()
       if (body.name.length > 20) throw new ProductNameIsNotValidException()
@@ -19,8 +23,9 @@ export class ProductCreateUseCase {
       const existProduct = await this.existProductByCode.run(body.code)
       if (existProduct) throw new ProductAlreadyExistsException()
 
-      const product = await this.productRepository.save(body)
+      body.uuid = this.uuidGenerator.generate()
+      const productId = await this.productRepository.upsert(undefined , body)
 
-      return product
+      return productId
    }
 }

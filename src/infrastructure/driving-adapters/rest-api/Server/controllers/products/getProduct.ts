@@ -1,14 +1,15 @@
 import { NextFunction, Request, Response } from 'express'
 import { ProductGetterByIdUseCase } from '@app/usecases/ProductGetterById'
-import { CosmosDBRepository } from '@infrastructure/implementations/Azure/CosmosDBRepository'
+import ProductSchema from '@infrastructure/implementations/Mongoose/models/ProductModel'
+import { MongoProductRepository } from '@infrastructure/implementations/Mongoose/repositories/MongoProductRepository'
 
 export const getProduct = async (req: Request, res: Response, next: NextFunction): Promise<void> => {
    const {
       id,
    } = req.params
 
-   const cosmosRepo = new CosmosDBRepository('products')
-   const productGetterById = new ProductGetterByIdUseCase(cosmosRepo)
+   const mongoRepo = new MongoProductRepository(ProductSchema)
+   const productGetterById = new ProductGetterByIdUseCase(mongoRepo)
 
    try {
       const product = await productGetterById.run(String(id))
