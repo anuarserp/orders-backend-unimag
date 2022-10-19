@@ -6,8 +6,8 @@ export class ProductGetterById {
 
    constructor(private readonly productRepository: ProductRepository) {}
 
-   async run(id: string): Promise<Product> {
-      const product = await this.productRepository.getOne(id)
+   async run(uuid: string): Promise<Product> {
+      const product = await this.productRepository.getOne(uuid)
       if (!product) throw new ProductNotFoundException()
 
       return product

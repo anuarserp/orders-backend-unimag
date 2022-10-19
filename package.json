@@ -5,9 +5,12 @@
   "license": "MIT",
   "dependencies": {
     "@azure/cosmos": "^3.17.1",
+    "argon2": "^0.30.1",
     "dotenv": "^16.0.3",
     "express": "^4.18.1",
-    "module-alias": "^2.2.2"
+    "module-alias": "^2.2.2",
+    "mongoose": "^6.6.5",
+    "uuid": "^9.0.0"
   },
   "scripts": {
     "dev": "nodemon ./src/infrastructure/driving-adapters/console.ts",
@@ -16,7 +19,9 @@
   "devDependencies": {
     "@types/dotenv": "^8.2.0",
     "@types/express": "^4.17.14",
+    "@types/mongoose": "^5.11.97",
     "@types/node": "^18.7.23",
+    "@types/uuid": "^8.3.4",
     "@typescript-eslint/eslint-plugin": "^5.38.1",
     "@typescript-eslint/parser": "^5.38.1",
     "eslint": "^8.24.0",

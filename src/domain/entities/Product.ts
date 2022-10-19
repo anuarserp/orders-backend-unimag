@@ -1,6 +1,6 @@
-export interface Product {
-   id?: string
-   code: number
-   name: string
-   price: number
+export class Product {
+   uuid?: string
+   readonly code: number
+   readonly name: string
+   readonly price: number
 }
